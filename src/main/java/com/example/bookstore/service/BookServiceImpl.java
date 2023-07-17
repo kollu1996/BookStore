@@ -55,7 +55,8 @@ public class BookServiceImpl extends BookConstants implements BookService {
         try{
             String title = book.getTitle();
 
-            TypedQuery<Book> theQuery = entityManager.createQuery("from BOOK B WHERE B.title = :title", Book.class);
+            TypedQuery<Book> theQuery = entityManager.createQuery("from Book B WHERE B.title = :title", Book.class);
+            theQuery.setParameter("title", title);
             List<Book> bookList = theQuery.getResultList();
             return new ResponseObj("200", SUCCESS_ALL_BOOKS, LocalDateTime.now().toString(), bookList);
         }
@@ -71,6 +72,7 @@ public class BookServiceImpl extends BookConstants implements BookService {
             String author = book.getAuthor();
 
             TypedQuery<Book> theQuery = entityManager.createQuery("from BOOK B WHERE B.author = :author", Book.class);
+            theQuery.setParameter("author", author);
             List<Book> bookList = theQuery.getResultList();
             return new ResponseObj("200", SUCCESS_ALL_BOOKS, LocalDateTime.now().toString(), bookList);
         }
@@ -86,6 +88,7 @@ public class BookServiceImpl extends BookConstants implements BookService {
             String genre = book.getGenre();
 
             TypedQuery<Book> theQuery = entityManager.createQuery("from BOOK B WHERE B.genre = :genre", Book.class);
+            theQuery.setParameter("genre", genre);
             List<Book> bookList = theQuery.getResultList();
             return new ResponseObj("200", SUCCESS_ALL_BOOKS, LocalDateTime.now().toString(), bookList);
         }

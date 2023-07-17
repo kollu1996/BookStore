@@ -22,4 +22,10 @@ public class UserController {
         log.info("I am in add user");
         return userService.addUser(user);
     }
+
+    @PostMapping("/login/user")
+    public UserRespObj loginUser(@RequestBody User user){
+        log.info("I am in login user");
+        return userService.loginUser(user);
+    }
 }
