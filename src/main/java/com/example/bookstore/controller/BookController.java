@@ -3,7 +3,6 @@ package com.example.bookstore.controller;
 import com.example.bookstore.Dao.BookDaoImpl;
 import com.example.bookstore.entity.Book;
 import com.example.bookstore.service.BookService;
-import com.example.bookstore.service.BookServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
