@@ -117,7 +117,6 @@ public class OrderServiceImpl implements OrderService {
         catch (ServiceException ex){
             log.info("Exception occured in getAllOrders: {}", ex.getMessage());
             return new OrderResponseObj("400", "error fetching books " + ex.getMessage(), LocalDateTime.now().toString());
-
         }
     }
 

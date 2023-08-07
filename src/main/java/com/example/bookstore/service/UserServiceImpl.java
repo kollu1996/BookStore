@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
             String password = user.getPassword();
 
             // Encrypt the password
-            if (!StringUtils.isNotEmpty(password)) {
-                return new UserRespObj("200", "Password should not be empty or null", LocalDateTime.now().toString());
+            if (!StringUtils.isNotEmpty(password) && !StringUtils.isNotEmpty(usr.getUsername()) ) {
+                return new UserRespObj("200", "Username or Password should not be empty or null", LocalDateTime.now().toString());
             }
             if (null != usr) {
                 return new UserRespObj("200", "Username already exists. pls choose different username", LocalDateTime.now().toString());
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
             return new UserRespObj("200", jwtToken, LocalDateTime.now().toString());
 
         } catch (Exception ex) {
-            return new UserRespObj("400", "Exception occured " + ex.getMessage(), LocalDateTime.now().toString());
+            return new UserRespObj("401", "Exception occured " + ex.getMessage(), LocalDateTime.now().toString());
         }
     }
 

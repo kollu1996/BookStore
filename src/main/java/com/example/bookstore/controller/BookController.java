@@ -55,7 +55,7 @@ public class BookController {
     }
 
     @DeleteMapping("/delete/book")
-    public ResponseObj DeleteBook(@RequestBody String title){
+    public ResponseObj DeleteBook(@RequestParam String title){
         log.info("I am in delete books");
         return bookService.deleteBook(title);
     }

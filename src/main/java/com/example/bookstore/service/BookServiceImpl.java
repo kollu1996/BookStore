@@ -3,8 +3,10 @@ package com.example.bookstore.service;
 import com.example.bookstore.controller.BookConstants;
 import com.example.bookstore.controller.ResponseObj;
 import com.example.bookstore.entity.Book;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,12 @@ public class BookServiceImpl extends BookConstants implements BookService {
                 return new ResponseObj("200", FAILED_ADD_BOOK, LocalDateTime.now().toString());
             }
             else {
-                entityManager.persist(book);
+                if(StringUtils.isNotBlank(book.getAuthor()) && StringUtils.isNotBlank(book.getGenre())){
+                    entityManager.persist(book);
+                }
+                else{
+                    return new ResponseObj("200", FAILED_ADD_BOOK_1, LocalDateTime.now().toString());
+                }
             }
             return new ResponseObj("200", SUCCESS_ADD_BOOK, LocalDateTime.now().toString());
         } catch (Exception ex) {
@@ -96,8 +103,8 @@ public class BookServiceImpl extends BookConstants implements BookService {
             return new ResponseObj("400", ex.getMessage(), LocalDateTime.now().toString());
         }
     }
-    @Transactional
     @Override
+    @Transactional
     public ResponseObj updateBook(Book book){
         try{
             Book bk = entityManager.find(Book.class, book.getTitle());
@@ -105,7 +112,32 @@ public class BookServiceImpl extends BookConstants implements BookService {
                 return new ResponseObj("200", FAILED_UPDATE_BOOK_NO_EXISTS, LocalDateTime.now().toString());
             }
             else {
-                entityManager.persist(book);
+                Query query  = entityManager.createQuery("update Book set author = :author, genre = :genre, price = :price where title = :title");
+                if(StringUtils.isNotBlank(book.getAuthor())) {
+                    query.setParameter("author", book.getAuthor());
+                }
+                else{
+                    query.setParameter("author", bk.getAuthor());
+                }
+                if(StringUtils.isNotBlank(book.getTitle())) {
+                    query.setParameter("title", book.getTitle());
+                }
+                else{
+                    query.setParameter("title", bk.getTitle());
+                }
+                if(StringUtils.isNotBlank(book.getGenre())) {
+                    query.setParameter("genre", book.getGenre());
+                }
+                else{
+                    query.setParameter("genre", bk.getGenre());
+                }
+                if(book.getPrice() > 0) {
+                    query.setParameter("price", book.getPrice());
+                }
+                else{
+                    query.setParameter("price", 0);
+                }
+                query.executeUpdate();
             }
             return new ResponseObj("200", SUCCESSFULLY_UPDATED_BOOK, LocalDateTime.now().toString());
         }
