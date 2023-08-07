@@ -1,0 +1,40 @@
+Java BookStore Application - Backend
+
+1) User should first register to the bookstore
+   He just need to give username and passwod. Improvements: can add credentials restrictions and take in more details about the user to better serve him
+   Added 2 conditions, Username or password cannot be empty or not null. Username should be unique. Searched DB for that
+   Did not store password in plain text. Used bcrypt encryption for that. Used Spring Security to authenticate the user
+
+   Register - /add/user and Login - /login/user
+
+2) Login to the application. If details entered correctly, a JWT token is generated and returned back else. returned error saying invalid credentials
+3) Return all books from the bookstore. No security involved. users can see all books
+4) Get books by name of author, title and genre of the book - Only authenticated user can do this. Can add support to say invalid jwt or expired
+5) Adding a book. cannot add duplicate book. Title of the book should be unique and genre and author should be present. Price will be 0 if not given
+6) Can update details of a book
+7) Can delete book
+
+Add Book - /add/book
+View All Books - /all/books
+Get Book by title - /title/book
+Get Book by author - /author/book
+Get Book by genre - /genre/book
+Update Book - /modify/book
+Delete Book - /delete/book
+
+Orders
+
+1) Can add orders based on logged in user. The key is jwt token sent in headers. Constraints are order size should be greater than 1, 
+   book same name and delivered status cannot be ordered.
+2) Can get details of specific order by bookname
+3) Can get details of all orders for a specific user
+4) Can update order details with specific order id.
+
+Add a new Order - /place/order
+Get specific order - /get/order
+Get all orders for a particular user - /getall/order
+Modify specific order - /modify/order
+
+
+Used Spring security to authenticate and authorize endpoints. Jwt to maintain the session (5 min is token expiry). Added try catch blocks to check and inform exceptions.
+Used Mysql DBMS to store data
